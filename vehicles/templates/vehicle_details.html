@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section position-relative" style="
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('{{ vehicle.image.url }}');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    margin-bottom: 2rem;">
+    <div class="container h-100">
+        <div class="row h-100 align-items-end pb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'vehicles:vehicles_list' %}" class="text-black">Vehículos</a></li>
+                        <li class="breadcrumb-item active text-black" aria-current="page">{{ vehicle.brand }} {{ vehicle.model }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- Galería de Imágenes -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                {% if vehicle.image %}
+                <img src="{{ vehicle.image.url }}" class="img-fluid rounded" alt="{{ vehicle }}" style="max-height: 400px; width: 100%; object-fit: cover;">
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Información del Vehículo -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="card-title mb-0">{{ vehicle.brand }} {{ vehicle.model }}</h2>
+                        {% if vehicle.available %}
+                        <span class="badge bg-success">Disponible</span>
+                        {% else %}
+                        <span class="badge bg-danger">No Disponible</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 bg-light rounded">
+                                <i class="fas fa-calendar-alt text-primary mb-2"></i>
+                                <div>{{ vehicle.year }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 bg-light rounded">
+                                <i class="fas fa-car text-primary mb-2"></i>
+                                <div>{{ vehicle.vehicle_type }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 bg-light rounded">
+                                <i class="fas fa-gas-pump text-primary mb-2"></i>
+                                <div>{{ vehicle.fuel_type }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="text-center p-3 bg-light rounded">
+                                <i class="fas fa-cogs text-primary mb-2"></i>
+                                <div>{{ vehicle.transmission }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mb-3">Características</h4>
+                    <div class="row g-2 mb-4">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="fas fa-palette me-2"></i>Color</span>
+                                    <span>{{ vehicle.color }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="fas fa-chair me-2"></i>Asientos</span>
+                                    <span>{{ vehicle.seat_number }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="fas fa-tachometer-alt me-2"></i>Kilometraje</span>
+                                    <span>{{ vehicle.mileage }} km</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="fas fa-map-marker-alt me-2"></i>Ubicación</span>
+                                    <span>{{ vehicle.location }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span><i class="fas fa-dollar-sign me-2"></i>Precio Diario</span>
+                                    <span class="text-primary fw-bold">${{ vehicle.daily_rate }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {% if vehicle.description %}
+                    <h4 class="mb-3">Descripción</h4>
+                    <p class="mb-4">{{ vehicle.description }}</p>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Volver
+                        </a>
+                        {% if vehicle.available %}
+                        <a href="#" class="btn btn-primary flex-grow-1">
+                            <i class="fas fa-calendar-check me-2"></i>Reservar Ahora
+                        </a>
+                        {% endif %}
+                        {% if user.is_staff %}
+                        <a href="{% url 'vehicles:vehicle_update' vehicle.pk %}" class="btn btn-warning">
+                            <i class="fas fa-edit me-2"></i>Editar
+                        </a>
+                        <a href="{% url 'vehicles:vehicle_delete' vehicle.pk %}" class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>Eliminar
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

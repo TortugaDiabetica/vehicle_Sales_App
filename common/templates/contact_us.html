@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80'); background-size: cover; background-position: center; height: 50vh; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: 3rem;">
+    <div class="text-center">
+        <h1 class="display-3 fw-bold">Contáctanos</h1>
+        <p class="lead">Estamos aquí para ayudarte</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <form action="/send_contact_form" method="post">
+                        <div class="mb-4">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control form-control-lg" id="name" name="name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Mensaje</label>
+                            <textarea class="form-control form-control-lg" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

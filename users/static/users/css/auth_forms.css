@@ -1,0 +1,116 @@
+.auth-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.auth-card .card-header {
+    background: #343a40;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 1.5rem;
+}
+
+.auth-card .card-body {
+    padding: 2rem;
+}
+
+.auth-form .form-control {
+    padding: 0.8rem;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    margin-bottom: 1rem;
+}
+
+.auth-form .btn-primary {
+    padding: 0.8rem;
+    font-weight: bold;
+    background-color: #0d6efd;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.auth-form .btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+}
+
+.auth-link {
+    color: #0d6efd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #0b5ed7;
+    text-decoration: underline;
+}
+
+/* Añadir estas clases para centrado */
+.auth-container {
+    position: relative;
+    z-index: 2; /* Mayor que el overlay */
+    min-height: 90vh; /* Cambiado para mejor centrado vertical */
+    display: flex;
+    align-items: center;
+    margin-top: -60px; /* Ajuste fino para compensar el navbar */
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Cambiar a 0 para estar detrás de todo */
+    overflow: hidden;
+}
+
+.auth-background-video {
+    position: absolute; /* Cambiar a absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2; /* Cambiado a -2 para estar detrás del overlay */
+    object-fit: cover;
+    filter: brightness(0.7); /* Oscurecer un poco el video */
+}
+
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Overlay un poco más transparente */
+    z-index: 1; /* Mayor que el video pero menor que el contenido */
+    backdrop-filter: blur(1px); /* Añadir un ligero desenfoque */
+}
+
+/* Estilos para los campos del formulario */
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Asegurar que los campos de error también mantengan el ancho */
+.auth-form .errorlist {
+    padding-left: 0;
+    list-style: none;
+    color: #dc3545;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}

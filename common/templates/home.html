@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section text-white text-center py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center; background-size: cover;">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold mb-4">Renta Iquique</h1>
+        <p class="lead mb-4">Tu mejor opción para rentar vehículos en la región</p>
+        <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-primary btn-lg">Ver Vehículos</a>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="text-center">
+                <i class="fas fa-car fa-3x text-primary mb-3"></i>
+                <h3>Amplia Flota</h3>
+                <p>Gran variedad de vehículos para todas tus necesidades</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                <h3>Seguridad</h3>
+                <p>Vehículos con seguro y mantenimiento al día</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <i class="fas fa-dollar-sign fa-3x text-primary mb-3"></i>
+                <h3>Precios Competitivos</h3>
+                <p>Las mejores tarifas del mercado</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">¿Cómo funciona?</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">1</div>
+                    <h4>Elige tu vehículo</h4>
+                    <p>Selecciona entre nuestra amplia gama de opciones</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">2</div>
+                    <h4>Reserva</h4>
+                    <p>Realiza tu reserva en línea</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">3</div>
+                    <h4>Documenta</h4>
+                    <p>Presenta tus documentos</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">4</div>
+                    <h4>¡Disfruta!</h4>
+                    <p>Recibe tu vehículo y disfruta tu viaje</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="container my-5 text-center">
+    <h2>¿Listo para comenzar?</h2>
+    <p class="lead mb-4">Encuentra el vehículo perfecto para tu próxima aventura</p>
+    <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-primary btn-lg">Explorar Vehículos</a>
+</div>
+{% endblock content %}
