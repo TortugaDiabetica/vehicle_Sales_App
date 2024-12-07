@@ -21,40 +21,41 @@
 
 <div class="container py-5">
     <!-- Filtros -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Buscar vehículo...">
-                <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+    <form method="get">
+        <div class="bg-light p-3 rounded mb-4">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <select name="vehicle_type" class="form-select">
+                        {% for choice in filter.form.vehicle_type.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == filter.form.vehicle_type.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    <!-- Filtros -->
-    <div class="bg-light p-3 rounded mb-4">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>Tipo de vehículo</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>Marca</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>Precio</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100">Aplicar Filtros</button>
+                <div class="col-md-3">
+                    <select name="daily_rate__lte" class="form-select">
+                        <option value="">Precio máximo</option>
+                        <option value="5000" {% if filter.form.daily_rate__lte.value == '5000' %}selected{% endif %}>Menos de $5,000</option>
+                        <option value="10000" {% if filter.form.daily_rate__lte.value == '10000' %}selected{% endif %}>Menos de $10,000</option>
+                        <option value="20000" {% if filter.form.daily_rate__lte.value == '20000' %}selected{% endif %}>Menos de $20,000</option>
+                        <option value="50000" {% if filter.form.daily_rate__lte.value == '50000' %}selected{% endif %}>Menos de $50,000</option>
+                        <option value="100000" {% if filter.form.daily_rate__lte.value == '100000' %}selected{% endif %}>Menos de $100,000</option>
+                        <option value="150000" {% if filter.form.daily_rate__lte.value == '150000' %}selected{% endif %}>Menos de $150,000</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="available" class="form-select">
+                        {% for choice in filter.form.available.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == filter.form.available.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" type="submit">Aplicar Filtros</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- Lista de Vehículos -->
     <div class="row g-4">
@@ -64,7 +65,7 @@
                 {% if vehicle.image %}
                 <div class="position-relative">
                     <img src="{{ vehicle.image.url }}" class="card-img-top" alt="{{ vehicle }}" style="height: 200px; object-fit: cover;">
-                    {% if not vehicle.available %}
+                    {% if vehicle.available == "No" %}
                     <div class="position-absolute top-0 end-0 m-2">
                         <span class="badge bg-danger">No Disponible</span>
                     </div>
@@ -80,7 +81,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
                             <small class="text-muted">Precio por día</small>
-                            <h4 class="mb-0 text-primary">${{ vehicle.daily_rate }}</h4>
+                            <h4 class="mb-0 text-primary">{{ vehicle.formatted_daily_rate }}</h4>
                         </div>
                         <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" class="btn btn-outline-primary">
                             Ver Detalles

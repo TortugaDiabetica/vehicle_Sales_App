@@ -9,12 +9,19 @@ from django.views.generic import (
 from .models import Vehicle
 from django.urls import reverse_lazy
 from .forms import FormUpdateVehicle, FormCreateVehicle
+from django.core.exceptions import ValidationError
+
+# Importamos django_filters para aplicar los filtros creados en filters.py a la vistas
+from django_filters.views import FilterView
+from .filters import VehicleFilter
 
 
-class VehicleListView(ListView):
+# Vista que lista vehiculos pero con herencia en los filtros:
+class VehicleListView(FilterView):
     model = Vehicle
     template_name = "vehicles_list.html"
     context_object_name = "vehicles"
+    filterset_class = VehicleFilter
 
 
 class VehicleDetailView(DetailView):
@@ -39,6 +46,12 @@ class UpdateVehicle(UpdateView):
         "vehicles:vehicles_list"
     )  # Añadido para redirigir después de actualizar
 
+    def form_valid(self, form):
+        if form.cleaned_data["daily_rate"] < 0:
+            form.add_error("daily_rate", "El precio diario no puede ser negativo.")
+            return self.form_invalid(form)
+        return super().form_valid(form)
+
 
 class CreateVehicle(CreateView):
     model = Vehicle
@@ -47,3 +60,9 @@ class CreateVehicle(CreateView):
     success_url = reverse_lazy(
         "vehicles:vehicles_list"
     )  # Añadido para redirigir después de crear
+
+    def form_valid(self, form):
+        if form.cleaned_data["daily_rate"] < 0:
+            form.add_error("daily_rate", "El precio diario no puede ser negativo.")
+            return self.form_invalid(form)
+        return super().form_valid(form)

@@ -1,10 +1,17 @@
 from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from .forms import CustomUserCreationForm
 from django.contrib.auth import logout
+
+
+User = get_user_model()
 
 
 class CustomLoginView(LoginView):
@@ -23,6 +30,9 @@ class RegisterView(FormView):
     def form_valid(self, form):
         user = form.save()
         if user:
+            # Añadir el usuario al grupo "Cliente"
+            cliente_group, created = Group.objects.get_or_create(name="Cliente")
+            user.groups.add(cliente_group)
             login(self.request, user)
         return super().form_valid(form)
 
@@ -34,4 +44,4 @@ class RegisterView(FormView):
 
 def custom_logout_view(request):
     logout(request)
-    return redirect("common:home")
+    return redirect("users:login")

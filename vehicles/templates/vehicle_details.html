@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -40,7 +41,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2 class="card-title mb-0">{{ vehicle.brand }} {{ vehicle.model }}</h2>
-                        {% if vehicle.available %}
+                        {% if vehicle.available == "Si" %}
                         <span class="badge bg-success">Disponible</span>
                         {% else %}
                         <span class="badge bg-danger">No Disponible</span>
@@ -57,19 +58,19 @@
                         <div class="col-6 col-md-3">
                             <div class="text-center p-3 bg-light rounded">
                                 <i class="fas fa-car text-primary mb-2"></i>
-                                <div>{{ vehicle.vehicle_type }}</div>
+                                <div>{{ vehicle.get_vehicle_type_display }}</div>
                             </div>
                         </div>
                         <div class="col-6 col-md-3">
                             <div class="text-center p-3 bg-light rounded">
                                 <i class="fas fa-gas-pump text-primary mb-2"></i>
-                                <div>{{ vehicle.fuel_type }}</div>
+                                <div>{{ vehicle.get_fuel_type_display }}</div>
                             </div>
                         </div>
                         <div class="col-6 col-md-3">
                             <div class="text-center p-3 bg-light rounded">
                                 <i class="fas fa-cogs text-primary mb-2"></i>
-                                <div>{{ vehicle.transmission }}</div>
+                                <div>{{ vehicle.get_transmission_display }}</div>
                             </div>
                         </div>
                     </div>
@@ -95,12 +96,12 @@
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between">
-                                    <span><i class="fas fa-map-marker-alt me-2"></i>Ubicación</span>
+                                    <span><i class="fas fa-map-marker-alt me-2"></i>Sucursal</span>
                                     <span>{{ vehicle.location }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span><i class="fas fa-dollar-sign me-2"></i>Precio Diario</span>
-                                    <span class="text-primary fw-bold">${{ vehicle.daily_rate }}</span>
+                                    <span class="text-primary fw-bold">{{ vehicle.formatted_daily_rate }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -115,7 +116,7 @@
                         <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Volver
                         </a>
-                        {% if vehicle.available %}
+                        {% if vehicle.available == "Si" and user.is_authenticated and user|has_group:"Cliente" %}
                         <a href="#" class="btn btn-primary flex-grow-1">
                             <i class="fas fa-calendar-check me-2"></i>Reservar Ahora
                         </a>

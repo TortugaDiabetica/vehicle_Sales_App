@@ -1,19 +1,17 @@
 from .models import Vehicle
 from django import forms
-from django.contrib.auth.models import User
 
 
 # Formulario para actualizar la información de los vehículos en el sistema
 class FormUpdateVehicle(forms.ModelForm):
     class Meta:
         model = Vehicle
-
         fields = [
             "brand",
             "model",
             "year",
             "color",
-            # "vehicle_type_choices",
+            "vehicle_type",
             "seat_number",
             "transmission",
             "fuel_type",
@@ -31,7 +29,7 @@ class FormUpdateVehicle(forms.ModelForm):
             "model": "Modelo",
             "year": "Año",
             "color": "Color",
-            # "vehicle_type_choices": "Tipo",
+            "vehicle_type": "Tipo",
             "seat_number": "Número de asientos",
             "transmission": "Transmisión",
             "fuel_type": "Tipo de combustible",
@@ -39,17 +37,26 @@ class FormUpdateVehicle(forms.ModelForm):
             "available": "Disponible",
             "mileage": "Kilometraje",
             "available_from": "Disponible desde",
-            "location": "Ubicación",
+            "location": "Sucursal",
             "image": "Imagen",
             "description": "Descripción",
         }  # Se definen las etiquetas de los campos del formulario de actualización de vehículos
+
+        widgets = {
+            "available_from": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def clean_daily_rate(self):
+        daily_rate = self.cleaned_data.get("daily_rate")
+        if daily_rate < 0:
+            raise forms.ValidationError("El precio diario no puede ser negativo.")
+        return daily_rate
 
 
 # Formulario para la creación de vehículos en el sistema
 class FormCreateVehicle(forms.ModelForm):
     class Meta:
         model = Vehicle
-
         fields = [
             "brand",
             "model",
@@ -81,7 +88,17 @@ class FormCreateVehicle(forms.ModelForm):
             "available": "Disponible",
             "mileage": "Kilometraje",
             "available_from": "Disponible desde",
-            "location": "Ubicación",
+            "location": "Sucursal",
             "image": "Imagen",
             "description": "Descripción",
         }
+
+        widgets = {
+            "available_from": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def clean_daily_rate(self):
+        daily_rate = self.cleaned_data.get("daily_rate")
+        if daily_rate < 0:
+            raise forms.ValidationError("El precio diario no puede ser negativo.")
+        return daily_rate

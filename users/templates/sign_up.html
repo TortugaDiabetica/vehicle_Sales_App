@@ -1,3 +1,4 @@
+<!-- filepath: /c:/Users/felip/WorkSpace/Prototipo_sucursal_Rentaiquique/users/templates/sign_up.html -->
 {% extends 'base.html' %}
 
 {% load static %}
@@ -5,7 +6,7 @@
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'users/css/auth_forms.css' %}">
 {% endblock %}
-
+    
 {% block content %}
 <div class="video-background">
     <video autoplay muted loop class="auth-background-video">
@@ -13,7 +14,7 @@
     </video>
 </div>
 <div class="auth-overlay"></div>
-<div class="auth-container">
+<div class="auth-container" style="z-index: 5;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
@@ -42,6 +43,9 @@
                         <hr class="my-4">
                         <p class="text-center mb-0">
                             ¿Ya tienes una cuenta? <a href="{% url 'users:login' %}" class="auth-link">Inicia sesión</a>
+                        </p>
+                        <p class="text-center mb-0">
+                            ¿Olvidaste tu contraseña? <a href="#" class="auth-link">Recupérala aquí</a>
                         </p>
                     </div>
                 </div>

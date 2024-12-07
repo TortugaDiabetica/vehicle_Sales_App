@@ -21,6 +21,7 @@
                         <p class="mb-0 text-muted">
                             <i class="fas fa-info-circle me-2"></i>Esta acción no se puede deshacer
                         </p>
+                        <span class="text-primary fw-bold">{{ vehicle.formatted_daily_rate }}</span>
                     </div>
                     <form method="post">
                         {% csrf_token %}
