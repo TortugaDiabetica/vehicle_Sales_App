@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.core.validators import MinValueValidator
+from django.contrib.auth import get_user_model
 
 
 # Se crea el modelo Vehicle con los campos necesarios para almacenar la información de un vehículo
@@ -55,24 +56,29 @@ class Vehicle(models.Model):
         ],
     )
 
-    daily_rate = models.DecimalField(
-        max_digits=8, decimal_places=2, validators=[MinValueValidator(0)]
-    )  # Tarifa diaria del vehículo en pesos chilenos
-
-    isAvaiable = [
-        ("No", "No"),
-        ("Si", "Si"),
-    ]
-    available = models.CharField(
-        choices=isAvaiable,
+    price = models.IntegerField(
+        validators=[MinValueValidator(0)],
+        verbose_name="Precio de venta",
+        default=0,
         null=False,
-        max_length=20,
-    )  # Disponibilidad del vehículo
-    mileage = models.PositiveIntegerField()  # Kilometraje del vehículo
+    )  # Cambiado a IntegerField para precios enteros
 
-    available_from = models.DateField(
-        null=True, blank=True, default=timezone.now
-    )  # Fecha de disponibilidad del vehículo
+    SALE_STATUS = [
+        ("AVAILABLE", "Disponible"),
+        ("RESERVED", "Reservado"),
+        ("SOLD", "Vendido"),
+    ]
+
+    sale_status = models.CharField(
+        max_length=20,
+        choices=SALE_STATUS,
+        default="AVAILABLE",
+        verbose_name="Estado de venta",
+    )
+
+    sale_date = models.DateTimeField(null=True, blank=True)
+
+    mileage = models.PositiveIntegerField()  # Kilometraje del vehículo
 
     location_choices = [
         ("Iquique", "Iquique"),
@@ -89,8 +95,61 @@ class Vehicle(models.Model):
     image = models.ImageField(upload_to="vehicles/", null=True, blank=True)
     description = models.TextField(blank=True)
 
-    def formatted_daily_rate(self):
-        return f"${self.daily_rate:,.0f}".replace(",", ".") + " CLP"
+    buyer = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="purchased_vehicles",
+    )
+
+    def formatted_price(self):
+        """Formato de precio en CLP"""
+        return f"${self.price:,.0f}".replace(",", ".") + " CLP"
+
+    def reserve_vehicle(self):
+        if self.sale_status == "AVAILABLE":
+            self.sale_status = "RESERVED"
+            self.save()
+            return True
+        return False
+
+    def mark_as_sold(self):
+        if self.sale_status in ["AVAILABLE", "RESERVED"]:
+            self.sale_status = "SOLD"
+            self.sale_date = timezone.now()
+            self.save()
+            return True
+        return False
+
+    @property
+    def is_available(self):
+        return self.sale_status == "AVAILABLE"
 
     def __str__(self):
         return f"{self.brand} {self.model} ({self.year})"
+
+    def get_absolute_url(self):
+        return reverse("vehicle_details", kwargs={"pk": self.pk})
+
+    class Meta:
+        ordering = ["-id"]  # Más recientes primero
+
+
+class TestDrive(models.Model):
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    customer = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    scheduled_date = models.DateTimeField()
+    status_choices = [
+        ("SCHEDULED", "Programada"),
+        ("COMPLETED", "Completada"),
+        ("CANCELLED", "Cancelada"),
+    ]
+    status = models.CharField(
+        max_length=20, choices=status_choices, default="SCHEDULED"
+    )
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-scheduled_date"]

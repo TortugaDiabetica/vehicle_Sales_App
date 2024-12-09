@@ -15,9 +15,9 @@
                         {% if vehicle.image %}
                         <div class="position-relative mb-4" style="height: 200px;">
                             <img src="{{ vehicle.image.url }}" alt="{{ vehicle }}" 
-                                 class="w-100 h-100" style="object-fit: cover;">
+                                class="w-100 h-100" style="object-fit: cover;">
                             <div class="position-absolute top-0 start-0 w-100 h-100" 
-                                 style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));">
+                                style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));">
                             </div>
                         </div>
                         {% endif %}
@@ -30,7 +30,7 @@
                         {% csrf_token %}
                         <div class="d-flex gap-3">
                             <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" 
-                               class="btn btn-outline-dark rounded-0 w-100">
+                                class="btn btn-outline-dark rounded-0 w-100">
                                 Cancelar
                             </a>
                             <button type="submit" class="btn btn-dark rounded-0 w-100">

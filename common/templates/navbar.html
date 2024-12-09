@@ -1,7 +1,7 @@
-<nav id="mainNav" class="navbar navbar-expand-lg fixed-top transition-all" style="background: transparent;">
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top transition-all {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'admin_history' %}navbar-light{% else %}navbar-dark{% endif %}" style="background: transparent;">
     <div class="container">
         <a class="navbar-brand" href="{% url 'common:home' %}" style="font-size: 1.5rem; letter-spacing: 1px;">
-            RENTA IQUIQUE
+            DriveHub
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -27,6 +27,7 @@
                         <ul class="dropdown-menu dropdown-menu-end border-0 rounded-0 mt-2">
                             {% if user.is_staff %}
                             <li><a class="dropdown-item py-2" href="/admin/">Panel Admin</a></li>
+                            <li><a class="dropdown-item py-2" href="{% url 'vehicles:admin_history' %}">Historial</a></li>
                             {% endif %}
                             <li><a class="dropdown-item py-2" href="{% url 'users:logout' %}">Cerrar Sesión</a></li>
                         </ul>
@@ -40,71 +41,3 @@
         </div>
     </div>
 </nav>
-
-<style>
-.navbar {
-    padding: 1.5rem 0;
-    transition: all 0.3s ease;
-}
-
-.navbar.scrolled {
-    background-color: white !important;
-    padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.navbar.scrolled .nav-link,
-.navbar.scrolled .navbar-brand {
-    color: #000 !important;
-}
-
-.nav-link {
-    color: white !important;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.navbar-brand {
-    color: white !important;
-    font-weight: 600;
-}
-
-.dropdown-menu {
-    background-color: rgba(255, 255, 255, 0.98);
-}
-
-.dropdown-item {
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-
-.dropdown-item:hover {
-    background-color: #f8f9fa;
-}
-
-@media (max-width: 991.98px) {
-    .navbar-collapse {
-        background-color: white;
-        padding: 1rem;
-        margin-top: 1rem;
-    }
-    
-    .navbar-collapse .nav-link {
-        color: #000 !important;
-    }
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            document.getElementById('mainNav').classList.add('scrolled');
-        } else {
-            document.getElementById('mainNav').classList.remove('scrolled');
-        }
-    });
-});
-</script>

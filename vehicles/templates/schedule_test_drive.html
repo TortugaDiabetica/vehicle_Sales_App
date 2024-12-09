@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card rounded-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Agendar Prueba de Manejo</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" class="btn btn-outline-secondary rounded-0">Cancelar</a>
+                            <button type="submit" class="btn btn-dark rounded-0">Agendar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

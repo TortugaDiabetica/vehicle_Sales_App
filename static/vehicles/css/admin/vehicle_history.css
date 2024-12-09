@@ -1,0 +1,17 @@
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.table td {
+    color: #555;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

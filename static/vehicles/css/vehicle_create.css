@@ -1,0 +1,12 @@
+.form-control:focus {
+    box-shadow: none;
+    border-color: #000;
+}
+
+.form-control {
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,27 @@
+.spec-item i {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.spec-item {
+    transition: transform 0.3s ease;
+}
+
+.spec-item:hover {
+    transform: translateY(-5px);
+}
+
+.image-container {
+    transition: transform 5s ease;
+    transform-origin: center;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.hero-section {
+    background: #000;
+}
+
+.hero-section:hover .image-container {
+    transform: scale(1.1);
+}

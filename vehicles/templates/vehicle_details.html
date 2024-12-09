@@ -1,8 +1,14 @@
 {% extends "base.html" %}
+{% load custom_filters %}
+
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'vehicles/css/vehicle_details.css' %}">
+{% endblock extra_head %}
 
 {% block content %}
 <!-- Hero Section con imagen del vehículo -->
-<div class="hero-section position-relative vh-100">
+<div class="hero-section position-relative vh-100 overflow-hidden">
     <div class="image-container position-absolute w-100 h-100" style="
         background: url('{% if vehicle.image %}{{ vehicle.image.url }}{% else %}https://via.placeholder.com/1920x1080{% endif %}') center/cover no-repeat;
         filter: brightness(0.9);">
@@ -15,8 +21,8 @@
                     <p class="lead mb-0">{{ vehicle.year }} • {{ vehicle.vehicle_type }}</p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <h3 class="mb-1">{{ vehicle.formatted_daily_rate }}</h3>
-                    <p class="small opacity-75">por día</p>
+                    <h3 class="mb-1">{{ vehicle.formatted_price }}</h3>
+                    <p class="small opacity-75">precio de venta</p>
                 </div>
             </div>
         </div>
@@ -69,9 +75,9 @@
                 <div class="bg-white p-4 h-100">
                     <h4 class="fw-bold mb-4">Estado</h4>
                     <div class="mb-4">
-                        <p class="mb-2">Disponibilidad</p>
-                        <h5 class="fw-bold {% if vehicle.available == 'Si' %}text-success{% else %}text-danger{% endif %}">
-                            {{ vehicle.available }}
+                        <p class="mb-2">Estado</p>
+                        <h5 class="fw-bold {% if vehicle.sale_status == 'AVAILABLE' %}text-success{% elif vehicle.sale_status == 'RESERVED' %}text-warning{% else %}text-danger{% endif %}">
+                            {{ vehicle.get_sale_status_display }}
                         </h5>
                     </div>
                     <div class="mb-4">
@@ -111,34 +117,23 @@
                     </a>
                 </div>
                 {% endif %}
-                <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-dark rounded-0">
+                
+                {% if user.is_authenticated and not user.is_staff and vehicle.sale_status == 'AVAILABLE' %}
+                <div>
+                    <a href="#" class="btn btn-outline-dark rounded-0 me-2">
+                        <i class="fas fa-car me-2"></i>Agendar Prueba
+                    </a>
+                    <a href="{% url 'vehicles:purchase_vehicle' vehicle.pk %}" class="btn btn-dark rounded-0">
+                        <i class="fas fa-shopping-cart me-2"></i>Comprar
+                    </a>
+                </div>
+                {% endif %}
+                
+                <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-outline-secondary rounded-0">
                     <i class="fas fa-arrow-left me-2"></i>Volver
                 </a>
             </div>
         </div>
     </div>
 </section>
-
-<style>
-.spec-item i {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.spec-item {
-    transition: transform 0.3s ease;
-}
-
-.spec-item:hover {
-    transform: translateY(-5px);
-}
-
-.image-container {
-    transition: transform 5s ease;
-}
-
-.hero-section:hover .image-container {
-    transform: scale(1.1);
-}
-</style>
-{% endblock %}
+{% endblock %} 

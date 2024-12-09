@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'vehicles/css/admin/vehicle_history.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container py-5 mt-5" style="background-color: #f8f9fa;">
+    <h2 class="mb-4">Historial de Vehículos</h2>
+    
+    <!-- Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-success text-white rounded-0">
+                <div class="card-body">
+                    <h5>Vendidos</h5>
+                    <h2>{{ total_sold }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white rounded-0">
+                <div class="card-body">
+                    <h5>Reservados</h5>
+                    <h2>{{ total_reserved }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4 rounded-0">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Filtrar por fecha</label>
+                    <select name="date_filter" class="form-select rounded-0" onchange="this.form.submit()">
+                        <option value="all" {% if date_filter == 'all' %}selected{% endif %}>Todo el historial</option>
+                        <option value="today" {% if date_filter == 'today' %}selected{% endif %}>Hoy</option>
+                        <option value="week" {% if date_filter == 'week' %}selected{% endif %}>Última semana</option>
+                        <option value="month" {% if date_filter == 'month' %}selected{% endif %}>Este mes</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Vehículos -->
+    <div class="card rounded-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Vehículo</th>
+                            <th>Estado</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vehicle in vehicles %}
+                        <tr>
+                            <td>{{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.year }})</td>
+                            <td>
+                                <span class="badge {% if vehicle.sale_status == 'SOLD' %}bg-success{% else %}bg-warning{% endif %}">
+                                    {{ vehicle.get_sale_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ vehicle.buyer.get_full_name|default:"No asignado" }}</td>
+                            <td>{{ vehicle.sale_date|date:"d/m/Y H:i"|default:"--" }}</td>
+                            <td>{{ vehicle.formatted_price }}</td>
+                            <td>
+                                <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" class="btn btn-sm btn-outline-dark rounded-0">
+                                    Ver detalles
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                No hay registros que mostrar
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
