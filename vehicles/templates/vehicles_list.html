@@ -1,109 +1,162 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="hero-section position-relative" style="
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80');
+<!-- Hero Section al estilo Tesla -->
+<div class="hero-section position-relative vh-100 d-flex align-items-center" style="
+    background: url('https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80');
     background-size: cover;
-    background-position: center;
-    height: 400px;
-    margin-bottom: 2rem;">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-md-8 text-white">
-                <h1 class="fw-bold display-4">Vehículos Disponibles</h1>
-                <p class="lead">Encuentra el vehículo perfecto para tu viaje</p>
+    background-position: center;">
+    <div class="container text-center">
+        <h1 class="display-2 fw-bold text-white mb-4">Vehículos Disponibles</h1>
+        <a href="#vehicles-section" class="text-white text-decoration-none">
+            <div class="d-flex flex-column align-items-center">
+                <p class="mb-3">Ver Catálogo</p>
+                <i class="fas fa-chevron-down fa-2x animate-bounce"></i>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="container py-5">
-    <!-- Filtros -->
-    <form method="get">
-        <div class="bg-light p-3 rounded mb-4">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <select name="vehicle_type" class="form-select">
-                        {% for choice in filter.form.vehicle_type.field.choices %}
-                            <option value="{{ choice.0 }}" {% if choice.0 == filter.form.vehicle_type.value %}selected{% endif %}>{{ choice.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <select name="daily_rate__lte" class="form-select">
-                        <option value="">Precio máximo</option>
-                        <option value="5000" {% if filter.form.daily_rate__lte.value == '5000' %}selected{% endif %}>Menos de $5,000</option>
-                        <option value="10000" {% if filter.form.daily_rate__lte.value == '10000' %}selected{% endif %}>Menos de $10,000</option>
-                        <option value="20000" {% if filter.form.daily_rate__lte.value == '20000' %}selected{% endif %}>Menos de $20,000</option>
-                        <option value="50000" {% if filter.form.daily_rate__lte.value == '50000' %}selected{% endif %}>Menos de $50,000</option>
-                        <option value="100000" {% if filter.form.daily_rate__lte.value == '100000' %}selected{% endif %}>Menos de $100,000</option>
-                        <option value="150000" {% if filter.form.daily_rate__lte.value == '150000' %}selected{% endif %}>Menos de $150,000</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select name="available" class="form-select">
-                        {% for choice in filter.form.available.field.choices %}
-                            <option value="{{ choice.0 }}" {% if choice.0 == filter.form.available.value %}selected{% endif %}>{{ choice.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-primary w-100" type="submit">Aplicar Filtros</button>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <!-- Lista de Vehículos -->
-    <div class="row g-4">
-        {% for vehicle in vehicles %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm hover-shadow">
-                {% if vehicle.image %}
-                <div class="position-relative">
-                    <img src="{{ vehicle.image.url }}" class="card-img-top" alt="{{ vehicle }}" style="height: 200px; object-fit: cover;">
-                    {% if vehicle.available == "No" %}
-                    <div class="position-absolute top-0 end-0 m-2">
-                        <span class="badge bg-danger">No Disponible</span>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">{{ vehicle.brand }} {{ vehicle.model }}</h5>
-                    <div class="mb-3">
-                        <span class="badge bg-primary">{{ vehicle.vehicle_type }}</span>
-                        <span class="badge bg-secondary">{{ vehicle.year }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <small class="text-muted">Precio por día</small>
-                            <h4 class="mb-0 text-primary">{{ vehicle.formatted_daily_rate }}</h4>
-                        </div>
-                        <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" class="btn btn-outline-primary">
-                            Ver Detalles
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center py-5">
-            <i class="fas fa-car-side fa-3x text-muted mb-3"></i>
-            <p class="lead">No hay vehículos disponibles en este momento.</p>
-        </div>
-        {% endfor %}
-    </div>
-    
-    {% if user.is_staff %}
-    <div class="mt-4 text-center">
-        <a href="{% url 'vehicles:vehicle_create' %}" class="btn btn-success">
-            <i class="fas fa-plus me-2"></i>Agregar Vehículo
         </a>
     </div>
-    {% endif %}
 </div>
+
+<div id="vehicles-section" class="py-5" style="background-color: #f5f5f5;">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Filtros con estilo minimalista -->
+            <div class="col-md-2">
+                <aside class="sticky-top" style="top: 2rem;">
+                    <div class="bg-white p-4 rounded-0 border-0">
+                        <h6 class="text-uppercase mb-4" style="letter-spacing: 2px;">Filtros</h6>
+                        <form method="get">
+                            <div class="mb-4">
+                                <select name="vehicle_type" class="form-select border-0 border-bottom rounded-0">
+                                    {% for choice in filter.form.vehicle_type.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == filter.form.vehicle_type.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <select name="daily_rate__lte" class="form-select border-0 border-bottom rounded-0">
+                                    <option value="">Rango de Precio</option>
+                                    <option value="5000" {% if filter.form.daily_rate__lte.value == '5000' %}selected{% endif %}>Menos de $5,000</option>
+                                    <option value="10000" {% if filter.form.daily_rate__lte.value == '10000' %}selected{% endif %}>Menos de $10,000</option>
+                                    <option value="20000" {% if filter.form.daily_rate__lte.value == '20000' %}selected{% endif %}>Menos de $20,000</option>
+                                    <option value="50000" {% if filter.form.daily_rate__lte.value == '50000' %}selected{% endif %}>Menos de $50,000</option>
+                                    <option value="100000" {% if filter.form.daily_rate__lte.value == '100000' %}selected{% endif %}>Menos de $100,000</option>
+                                    <option value="150000" {% if filter.form.daily_rate__lte.value == '150000' %}selected{% endif %}>Menos de $150,000</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <select name="available" class="form-select border-0 border-bottom rounded-0">
+                                    {% for choice in filter.form.available.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == filter.form.available.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <button class="btn btn-dark w-100 rounded-0" type="submit">Aplicar</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Lista de Vehículos estilo Tesla -->
+            <div class="col-md-10">
+                <div class="row g-4">
+                    {% for vehicle in vehicles %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="vehicle-card position-relative overflow-hidden" 
+                            style="height: 400px; background: url('{% if vehicle.image %}{{ vehicle.image.url }}{% else %}https://via.placeholder.com/400x300{% endif %}') center/cover no-repeat;">
+                            <div class="vehicle-overlay position-absolute w-100 h-100 top-0 start-0">
+                                <div class="h-100 d-flex flex-column justify-content-end p-4 text-white">
+                                    <div class="vehicle-content">
+                                        <h4 class="fw-bold mb-2">{{ vehicle.brand }} {{ vehicle.model }}</h4>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="mb-0 small opacity-75">Desde</p>
+                                                <h5 class="fw-bold mb-3">{{ vehicle.formatted_daily_rate }}</h5>
+                                            </div>
+                                            {% if vehicle.available == "No" %}
+                                            <span class="badge bg-light text-dark rounded-0">No Disponible</span>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{% url 'vehicles:vehicle_details' vehicle.pk %}" 
+                                            class="btn btn-outline-light rounded-0 w-100">
+                                            Más Información
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p class="lead text-muted">No hay vehículos disponibles en este momento.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if user.is_staff %}
+                <div class="mt-5 text-center">
+                    <a href="{% url 'vehicles:vehicle_create' %}" class="btn btn-dark rounded-0">
+                        <i class="fas fa-plus me-2"></i>Agregar Vehículo
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.vehicle-card {
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: scale(1.02);
+}
+
+.vehicle-overlay {
+    background: linear-gradient(to top, 
+        rgba(0,0,0,0.9) 0%,
+        rgba(0,0,0,0.5) 50%,
+        rgba(0,0,0,0.1) 100%);
+    transition: all 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-overlay {
+    background: linear-gradient(to top, 
+        rgba(0,0,0,0.95) 0%,
+        rgba(0,0,0,0.7) 50%,
+        rgba(0,0,0,0.2) 100%);
+}
+
+.vehicle-content {
+    transform: translateY(20px);
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+</style>
 {% endblock %}

@@ -1,66 +1,110 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: relative; z-index: 1000;">
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top transition-all" style="background: transparent;">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'common:home' %}">
-            <i class="fas fa-car me-2"></i>Renta Iquique
+        <a class="navbar-brand" href="{% url 'common:home' %}" style="font-size: 1.5rem; letter-spacing: 1px;">
+            RENTA IQUIQUE
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'common:home' %}">
-                        <i class="fas fa-home me-1"></i>Inicio
-                    </a>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{% url 'vehicles:vehicles_list' %}">Vehículos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'vehicles:vehicles_list' %}">
-                        <i class="fas fa-car-side me-1"></i>Vehículos
-                    </a>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{% url 'common:about' %}">Nosotros</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'common:about' %}">
-                        <i class="fas fa-info-circle me-1"></i>Sobre nosotros
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'common:contact' %}">
-                        <i class="fas fa-envelope me-1"></i>Contáctanos
-                    </a>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="{% url 'common:contact' %}">Contacto</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <span class="nav-link">
-                            <i class="fas fa-user me-1"></i>{{ user.username }}
-                        </span>
-                    </li>
-                    {% if user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/">
-                            <i class="fas fa-cog me-1"></i>Administrar
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            {{ user.username }}
                         </a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}">
-                            <i class="fas fa-sign-out-alt me-1"></i>Cerrar sesión
-                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 rounded-0 mt-2">
+                            {% if user.is_staff %}
+                            <li><a class="dropdown-item py-2" href="/admin/">Panel Admin</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item py-2" href="{% url 'users:logout' %}">Cerrar Sesión</a></li>
+                        </ul>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">
-                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar sesión
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:register' %}">
-                            <i class="fas fa-user-plus me-1"></i>Registrarse
-                        </a>
+                        <a class="nav-link" href="{% url 'users:login' %}">Cuenta</a>
                     </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+
+<style>
+.navbar {
+    padding: 1.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background-color: white !important;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar.scrolled .nav-link,
+.navbar.scrolled .navbar-brand {
+    color: #000 !important;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.dropdown-item {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: white;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .navbar-collapse .nav-link {
+        color: #000 !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            document.getElementById('mainNav').classList.add('scrolled');
+        } else {
+            document.getElementById('mainNav').classList.remove('scrolled');
+        }
+    });
+});
+</script>

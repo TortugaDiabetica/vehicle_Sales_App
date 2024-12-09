@@ -1,83 +1,219 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="hero-section text-white text-center py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center; background-size: cover;">
-    <div class="container py-5">
-        <h1 class="display-4 fw-bold mb-4">Renta Iquique</h1>
-        <p class="lead mb-4">Tu mejor opción para rentar vehículos en la región</p>
-        <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-primary btn-lg">Ver Vehículos</a>
+<!-- Main Hero Section con Carrusel -->
+<section class="vh-100 position-relative">
+    <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
+        <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
+                <div class="h-100" style="
+                    background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80') no-repeat center center;
+                    background-size: cover;">
+                </div>
+            </div>
+            <div class="carousel-item h-100">
+                <div class="h-100" style="
+                    background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80') no-repeat center center;
+                    background-size: cover;">
+                </div>
+            </div>
+            <div class="carousel-item h-100">
+                <div class="h-100" style="
+                    background: url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80') no-repeat center center;
+                    background-size: cover;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="position-absolute top-50 start-0 translate-middle-y">
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+        </div>
+        <div class="position-absolute top-50 end-0 translate-middle-y">
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
     </div>
-</div>
 
-<!-- Features Section -->
-<div class="container my-5">
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="text-center">
-                <i class="fas fa-car fa-3x text-primary mb-3"></i>
-                <h3>Amplia Flota</h3>
-                <p>Gran variedad de vehículos para todas tus necesidades</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="text-center">
-                <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
-                <h3>Seguridad</h3>
-                <p>Vehículos con seguro y mantenimiento al día</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="text-center">
-                <i class="fas fa-dollar-sign fa-3x text-primary mb-3"></i>
-                <h3>Precios Competitivos</h3>
-                <p>Las mejores tarifas del mercado</p>
+    <div class="position-absolute top-50 start-50 translate-middle text-center text-white" style="z-index: 2;">
+        <h1 class="display-2 fw-bold mb-4" style="letter-spacing: 2px;">RENTA IQUIQUE</h1>
+        <p class="lead mb-5" style="letter-spacing: 1px;">Experiencia de Conducción Premium</p>
+        <div class="d-flex flex-column align-items-center">
+            <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-light rounded-0 px-5 py-3 mb-5">
+                Ver Vehículos
+            </a>
+            <div class="mt-4">
+                <a href="#discover" class="text-white text-decoration-none animate-bounce d-inline-block">
+                    <p class="small mb-2" style="letter-spacing: 1px;">Descubre Más</p>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Overlay para mejorar la legibilidad del texto -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" 
+         style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4));"></div>
+</section>
+
+<!-- Featured Vehicles Section -->
+<section id="discover" class="min-vh-100 position-relative overflow-hidden">
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="p-5 d-flex flex-column justify-content-center" style="height: 100vh;">
+                    <h2 class="display-4 fw-bold mb-4">Flota Premium</h2>
+                    <p class="lead mb-4">Descubre nuestra selección de vehículos de alta gama para hacer de tu viaje una experiencia única.</p>
+                    <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-dark rounded-0 align-self-start px-4 py-3">
+                        Explorar Flota
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="parallax-wrapper position-sticky" style="top: 0; height: 100vh;">
+                    <div class="parallax-image h-100" style="
+                        background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80') no-repeat center center;
+                        background-size: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Process Section -->
-<div class="bg-light py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">¿Cómo funciona?</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="text-center">
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">1</div>
-                    <h4>Elige tu vehículo</h4>
-                    <p>Selecciona entre nuestra amplia gama de opciones</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="text-center">
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">2</div>
-                    <h4>Reserva</h4>
-                    <p>Realiza tu reserva en línea</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="text-center">
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">3</div>
-                    <h4>Documenta</h4>
-                    <p>Presenta tus documentos</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="text-center">
-                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">4</div>
-                    <h4>¡Disfruta!</h4>
-                    <p>Recibe tu vehículo y disfruta tu viaje</p>
-                </div>
+<section class="min-vh-100 d-flex align-items-center" style="background-color: #f5f5f5;">
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-12 text-center" data-aos="fade-up">
+                <h2 class="display-4 fw-bold mb-3">Proceso Simple</h2>
+                <p class="lead">Renta tu vehículo en cuatro simples pasos</p>
             </div>
         </div>
+        <div class="row g-4">
+            {% for step in steps %}
+            <div class="col-md-3">
+                <div class="process-step" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:2|multiply:100 }}">
+                    <div class="step-number mb-4">{{ forloop.counter }}</div>
+                    <h3 class="h4 fw-bold mb-3">{{ step.title }}</h3>
+                    <p class="text-muted">{{ step.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
+</section>
 
 <!-- Call to Action -->
-<div class="container my-5 text-center">
-    <h2>¿Listo para comenzar?</h2>
-    <p class="lead mb-4">Encuentra el vehículo perfecto para tu próxima aventura</p>
-    <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-primary btn-lg">Explorar Vehículos</a>
-</div>
+<section class="vh-100 d-flex align-items-center justify-content-center" style="
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url('https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&q=80') no-repeat center center;
+    background-size: cover;">
+    <div class="text-center text-white">
+        <h2 class="display-4 fw-bold mb-4">¿Listo para Comenzar?</h2>
+        <p class="lead mb-5">Tu próxima aventura está a un click de distancia</p>
+        <a href="{% url 'vehicles:vehicles_list' %}" class="btn btn-outline-light rounded-0 px-5 py-3">
+            Reserva Ahora
+        </a>
+    </div>
+</section>
+
+<style>
+.step-number {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #000;
+    opacity: 0.1;
+}
+
+.process-step {
+    padding: 2rem;
+    background: white;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.process-step:hover {
+    transform: translateY(-10px);
+}
+
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.parallax-wrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.parallax-image {
+    height: 100%;
+    transform: scale(1.1); /* Ligero zoom para evitar bordes blancos durante el parallax */
+    will-change: transform;
+}
+
+@media (min-width: 992px) {
+    .parallax-image {
+        transform: scale(1.1) translateY(calc(var(--scroll) / 5));
+    }
+}
+
+.carousel-item {
+    transition: transform 1.6s ease-in-out;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    padding: 2rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth >= 992) {
+        const parallaxSection = document.getElementById('discover');
+        const parallaxImage = document.querySelector('.parallax-image');
+        
+        window.addEventListener('scroll', function() {
+            const rect = parallaxSection.getBoundingClientRect();
+            if (rect.top <= 0 && rect.bottom >= 0) {
+                const scrolled = -rect.top;
+                parallaxImage.style.setProperty('--scroll', scrolled + 'px');
+            }
+        });
+    }
+});
+</script>
+
 {% endblock content %}

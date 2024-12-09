@@ -1,5 +1,47 @@
-<div class="bg-light py-4">
-    <div class="container text-center">
-        <p>&copy; 2023 Rentaiquique. Todos los derechos reservados.</p>
+<footer class="py-5 bg-white border-top">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'vehicles:vehicles_list' %}" class="text-dark text-decoration-none small">Vehículos</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Sobre Nosotros</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Ubicaciones</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark text-decoration-none small">Términos</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Privacidad</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Política de Cookies</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark text-decoration-none small">Facebook</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">Instagram</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none small">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-3">
+                <p class="small text-muted mb-1">Renta Iquique</p>
+                <p class="small text-muted mb-0">© 2024</p>
+            </div>
+        </div>
     </div>
-</div>
+</footer>
+
+<style>
+footer .list-unstyled li {
+    margin-bottom: 0.75rem;
+}
+
+footer .list-unstyled li a {
+    transition: opacity 0.2s ease;
+    font-size: 0.875rem;
+}
+
+footer .list-unstyled li a:hover {
+    opacity: 0.7;
+}
+</style>
