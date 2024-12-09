@@ -41,34 +41,3 @@ class CustomUserCreationForm(UserCreationForm):
         # Validación de formato de correo electrónico
         EmailValidator()(email)
         return email
-
-
-# # Validación de RUT
-# def rut_validation(rut):
-#     # Elimina puntos y guión
-#     rut = rut.replace(".", "").replace("-", "")
-
-#     if len(rut) < 2:
-#         raise ValidationError("El RUT ingresado no es válido.")
-
-#     cuerpo = rut[:-1]
-#     digito_verificador = rut[-1].upper()
-
-#     try:
-#         cuerpo = int(cuerpo)
-#     except ValueError:
-#         raise ValidationError("El RUT ingresado no es válido.")
-
-#     # Cálculo del dígito verificador
-#     suma = 0
-#     multiplicador = 2
-
-#     for digito in reversed(str(cuerpo)):
-#         suma += int(digito) * multiplicador
-#         multiplicador = 9 if multiplicador == 7 else multiplicador + 1
-
-#     resto = suma % 11
-#     dv_calculado = "K" if resto == 10 else str(11 - resto)
-
-#     if dv_calculado != digito_verificador:
-#         raise ValidationError("El RUT ingresado no es válido.")
